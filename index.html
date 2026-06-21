@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday My Love ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff4e8a,#ff9a8b,#ffc3a0);
+    position:relative;
+}
+
+.container{
+    width:90%;
+    max-width:500px;
+    text-align:center;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(12px);
+    border-radius:25px;
+    padding:30px;
+    color:white;
+    box-shadow:0 8px 30px rgba(0,0,0,0.2);
+    z-index:10;
+}
+
+h1{
+    font-size:2.5rem;
+    margin-bottom:15px;
+    animation:glow 2s infinite alternate;
+}
+
+.message{
+    font-size:1.1rem;
+    line-height:1.8;
+    margin-top:15px;
+}
+
+.love{
+    font-size:4rem;
+    animation:heartbeat 1.2s infinite;
+    margin:15px 0;
+}
+
+button{
+    margin-top:20px;
+    padding:12px 24px;
+    border:none;
+    border-radius:50px;
+    background:white;
+    color:#ff4e8a;
+    font-size:1rem;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+@keyframes heartbeat{
+    0%{transform:scale(1);}
+    25%{transform:scale(1.15);}
+    50%{transform:scale(1);}
+    75%{transform:scale(1.15);}
+    100%{transform:scale(1);}
+}
+
+@keyframes glow{
+    from{
+        text-shadow:0 0 10px white;
+    }
+    to{
+        text-shadow:0 0 25px #fff;
+    }
+}
+
+/* Floating Hearts */
+.heart{
+    position:absolute;
+    color:white;
+    font-size:20px;
+    animation:float 8s linear infinite;
+    opacity:0.8;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+    20%{
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-100px);
+        opacity:0;
+    }
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+
+/* Mobile */
+@media(max-width:600px){
+    h1{
+        font-size:2rem;
+    }
+
+    .message{
+        font-size:1rem;
+    }
+
+    .love{
+        font-size:3.5rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="container">
+    <h1>🎂 Happy Birthday My Love 🎂</h1>
+
+    <div class="love">❤️</div>
+
+    <p class="message">
+        Happy Birthday, My Love! 💖<br><br>
+
+        You are the most beautiful part of my life and every moment with you feels magical.
+        Thank you for filling my world with love, happiness, and endless smiles.
+        May your special day be as wonderful, bright, and amazing as you are.
+        <br><br>
+        I love you today, tomorrow, and forever. ❤️✨
+    </p>
+
+    <button onclick="showLove()">
+        Click for a Surprise 💕
+    </button>
+</div>
+
+<script>
+// Surprise Button
+function showLove(){
+    alert("💖 Happy Birthday, My Love! You are my favorite person in the entire universe! 💖");
+}
+
+// Floating Hearts
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML="❤";
+
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(15+Math.random()*25)+"px";
+    heart.style.animationDuration=(5+Math.random()*5)+"s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+        heart.remove();
+    },10000);
+}
+
+setInterval(createHeart,400);
+
+
+// Confetti Animation
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+const confetti=[];
+
+for(let i=0;i<180;i++){
+    confetti.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*6+2,
+        d:Math.random()*180,
+        color:`hsl(${Math.random()*360},100%,50%)`,
+        tilt:Math.random()*10-10
+    });
+}
+
+function drawConfetti(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    confetti.forEach(c=>{
+        ctx.beginPath();
+        ctx.fillStyle=c.color;
+        ctx.fillRect(c.x,c.y,c.r,c.r);
+    });
+
+    updateConfetti();
+}
+
+let angle=0;
+
+function updateConfetti(){
+    angle += 0.01;
+
+    confetti.forEach(c=>{
+        c.y += (Math.cos(angle+c.d)+3+c.r/2)/2;
+        c.x += Math.sin(angle);
+
+        if(c.y > canvas.height){
+            c.y = -10;
+            c.x = Math.random()*canvas.width;
+        }
+    });
+}
+
+function animate(){
+    drawConfetti();
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize",()=>{
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+});
+</script>
+
+</body>
+</html>
